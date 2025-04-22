@@ -1,2 +1,3 @@
 # IbraPloe
-Front-End Development Projekt SoSe2025
+"Sustainable Locations" Projekt SoSe2025
+- Elisabeth Plöntzke, 592143

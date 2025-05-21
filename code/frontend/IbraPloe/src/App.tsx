@@ -25,7 +25,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-info-subtle">
       <Header />
       <main>
         <h2>Gefundene Fahrrad-Incidents</h2>

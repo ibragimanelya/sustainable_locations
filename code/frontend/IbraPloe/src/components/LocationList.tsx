@@ -21,13 +21,13 @@ const LocationList: React.FC<LocationListProps> = ({ locations }) => {
                   <p className="text-start">{'Street: ' + location.street}</p>
                   <p className="text-start">{'Zip & City: ' + (location.zip + ' ' + location.city)}</p>
                   <p className="text-start">{'Category: ' + location.category}</p>
-                  <p className="text-start">{'Image: ' + (location.images[0] == null ? '-' : location.images[0].image)}</p>
-                  <p className="text-start">{'Image count: ' + location.images.length}</p>
                 </div>
 
                 <div className="col-4">
                   <img
-                    src= 'src\assets\Bike_default.PNG'
+                    src= {location.images.length != 0 
+                      ? `http://141.45.191.149:7777/bikelin/api/incident/image/${location.images[0].image}`
+                      : 'src/assets/No_bike_image.PNG'}
                     className="img-thumbnail w-50"
                     alt={location.title}
                   />

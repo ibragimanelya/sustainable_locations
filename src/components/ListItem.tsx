@@ -23,7 +23,7 @@ const ListItem: React.FC<ListItemProps> = ({ location }) => {
                   <img
                     src= {location.images.length != 0 
                       ? `http://141.45.191.149:7777/bikelin/api/incident/image/${location.images[0].image}`
-                      : 'src/assets/No_bike_image.PNG'}
+                      : '/No_bike_image.PNG'}
                     className="img-thumbnail w-50"
                     alt={location.title}
                   />

@@ -1,4 +1,4 @@
-import { Location } from "../domain/Location";
+import { Location } from "./Location";
 
 const BASE_URL = "http://141.45.191.149:7777/bikelin/api";
 

@@ -25,10 +25,9 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-info-subtle">
       <Header />
       <main>
-        <h2>Gefundene Fahrrad-Incidents</h2>
         {error ? <p>{error}</p> : <LocationList locations={locations} />}
       </main>
       <Footer />

@@ -7,9 +7,15 @@ export default function Counter() {
     const increment = () => {
         setCounter(counter + 1);
     }
-
-    return (
-        <button onClick={increment}>{counter} 👍</button>
+    if (counter == 0) {
+        return (
+        <button className="btn btn-outline-info" onClick={increment}>{counter} Likes</button>
     )
+    } else {
+        return (
+        <button className="btn btn-info" onClick={increment}>{counter} Likes</button>
+    )
+    }
+    
 
 }

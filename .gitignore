@@ -30,6 +30,9 @@ dist-ssr/
 build/
 coverage/
 
+# Dependencies
+.vite/*
+
 # Frontend (z. B. React, Vue, etc.)
 frontend/node_modules/
 frontend/.env

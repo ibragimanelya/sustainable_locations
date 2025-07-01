@@ -1,4 +1,5 @@
 import { Location } from "./Location";
+import { token } from "./auth";
 
 const BASE_URL = "http://141.45.191.149:7777/bikelin/api";
 
@@ -17,3 +18,6 @@ export async function fetchLocation(id: number): Promise<Location> {
   }
   return await res.json();
 }
+
+//todo add update and create Location methods
+//use user token from auth

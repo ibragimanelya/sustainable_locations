@@ -12,13 +12,19 @@ export async function loginRequest(username: string, password: string): Promise<
 
     if (!res.ok) throw new Error("Login fehlgeschlagen");
 
-    return await res.json();
+    let resObject = await res.json();
+    return resObject.UserResponse;
 };
 
 
-export async function logoutRequest(user: UserResponse){
+export async function logoutRequest(token: string){
     
-  const res = await fetch(`${BASE_URL}/users/logout`); //todo Token hinzufügen
+  const res = await fetch(`${BASE_URL}/users/logout`, {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  });
 
   if (!res.ok) throw new Error("Logout fehlgeschlagen");
 

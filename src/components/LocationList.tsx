@@ -2,27 +2,39 @@ import React, { useEffect, useState } from "react";
 import { Location } from "../domain/Location";
 import ListItem from "./ListItem";
 import { useLocations } from "../domain/hooks";
+import { useNavigate } from "react-router";
+import { loggedIn, logout, user } from "../domain/auth";
 
 
 const LocationList = () => {
 
   const {locations, state, error, refresh} = useLocations();
   
-    const [lastRefresh, setLastRefresh] = useState(Date.now());
+  const [lastRefresh, setLastRefresh] = useState(Date.now());
+
+  useEffect(refresh, [lastRefresh]);  
+
+  useEffect(() => {
+    const intervallId = setInterval(setLastRefresh, 10000, Date.now()); 
+    return () => clearInterval(intervallId);
+  })
+
+  const navigate = useNavigate();
+
+  if (user == null) {
+    return (
+      <div className="d-flex flex-column align-items-center px-3 card">
+          <h1 className="text-danger">You have to be logged in to view locations</h1>
+      </div>
+    )
+  }
   
-    useEffect(refresh, [lastRefresh]);  
-  
-    useEffect(() => {
-      const intervallId = setInterval(setLastRefresh, 10000, Date.now()); 
-      return () => clearInterval(intervallId);
-    })
-  
-    //todo add button einfügen navigate("/locations/add")
   return (
     <div className="d-flex flex-column align-items-center px-3">
-      <h2>Gefundene Fahrrad-Incidents</h2>
+      <h1 className="m-2 m-md-4">Bike Incidents Overview</h1>
+      {loggedIn() && user.role === "admin" && <button className="btn btn-primary" onClick={() => navigate("/locations/add")}>Add new location</button>}
       <ul>
-        {state === "success" ? locations.length > 0 ? locations.map((location) => <ListItem location={location}/>) : "No Locations" : `error: ${error}`}
+        {state === "success" ? locations.length > 0 ? locations.map((location) => <ListItem key={location.incident_id} location={location}/>) : "No Locations" : `error: ${error}`}
       </ul>
     </div>
   );

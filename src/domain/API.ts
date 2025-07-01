@@ -3,6 +3,8 @@ import { token } from "./auth";
 
 const BASE_URL = "http://141.45.191.149:7777/bikelin/api";
 
+//todo schauen ob alle Attribute vorhanden sind
+
 export async function fetchAllLocations(): Promise<Location[]> {
   const res = await fetch(`${BASE_URL}/incidents`);
   if (!res.ok) {

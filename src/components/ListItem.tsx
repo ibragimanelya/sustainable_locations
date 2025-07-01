@@ -1,15 +1,22 @@
 import React from "react";
 import { Location } from "../domain/Location";
 import Counter from "./Counter";
+import { useNavigate } from "react-router";
 
 interface ListItemProps {
   location: Location;
 }
 
 const ListItem: React.FC<ListItemProps> = ({ location }) => {
+
+  const navigate = useNavigate();
+
+  const showDetails = () => navigate(`/locations/${location.incident_id}`);
+
+  //todo nicht die ganze Karte anklicken zum Details anzeigen
     return (
         <li className="list-unstyled" key={location.incident_id}>
-            <div className="card m-2 m-md-4">
+            <div className="card m-2 m-md-4" onClick={showDetails}>
               <div className="row">
                 <div className="col-7">
                   <h3>{location.title}</h3>

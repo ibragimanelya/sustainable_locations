@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
             <div className="d-flex flex-column align-items-center px-3">
               <ul className="list-unstyled mb-0">
                 <li><a className="text-white" onClick={() => navigate("/about")}>About us</a></li>
-                <li><a className="text-white">Legal Notice</a></li>
+                <li><a className="text-white" onClick={() => navigate("/about")}>Legal Notice</a></li>
               </ul>
             </div>
           </div>

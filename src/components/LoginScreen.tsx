@@ -35,7 +35,14 @@ const LoginScreen = () => {
     };
 
     return (
-        <div className="card m-2 m-md-4">
+        <div className="card m-2 m-md-4 d-flex flex-column align-items-center px-3">
+            <img
+            src="/logo.png" 
+            alt="App Logo"
+            height="40"
+            className="me-2"
+            />
+            <h1 className="m-2 m-md-4">Welcome to IbraPloe Incidents!</h1>
             <form onSubmit={onsubmit}>
                 <div className="row m-2 m-md-4">
                     <div className="col-6">
@@ -44,13 +51,16 @@ const LoginScreen = () => {
                         value={username} 
                         onChange={(e) => setUsername(e.target.value)}/>
                     </div>
+                    
+                    
+                </div>
+                <div className="row m-2 m-md-4">
                     <div className="col-6">
                         <label htmlFor="password" className="form-label m-1">Password</label>
                         <input type="password" id="password" name="password" 
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}/>
                     </div>
-                    
                 </div>
                 {error !== "" && (<div className="row m-2 m-md-4">
                     <p className="text-danger">

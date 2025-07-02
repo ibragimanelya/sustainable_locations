@@ -23,7 +23,13 @@ const LocationDetailScreen = () => {
         })
     }, []);
 
-    if (location == null) return <h1>No Location</h1>
+    if (location == null) return (
+        <div className="card m-2 m-md-4">
+            <h1>No Location</h1>
+            <p className="fs-3 text-danger">We could not find the location you were looking for.</p>
+        </div>
+        
+    )
 
     let options: Intl.DateTimeFormatOptions = {
             day: "numeric", month: "numeric", year: "numeric",

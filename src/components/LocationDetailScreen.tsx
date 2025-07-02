@@ -4,8 +4,6 @@ import { useNavigate, useParams } from "react-router";
 import { Location } from "../domain/Location";
 import { loggedIn, user } from "../domain/auth";
 
-//todo Screen implementieren
-
 const LocationDetailScreen = () => {
     const {locationId} = useParams<{locationId: string}>();
 
@@ -73,7 +71,10 @@ const LocationDetailScreen = () => {
                 { loggedIn() && user.role === "admin" && (
                     <>
                         <button className="btn btn-primary m-2" onClick={() => navigate(`/locations/edit/${location.incident_id}`)}>Edit</button>
-                        <button className="btn btn-danger m-2" onClick={() => console.log("Unable to delete location at this moment")}>Delete</button>
+                        <button className="btn btn-danger m-2" onClick={() => {
+                            console.log("Unable to delete location at this moment")
+                            navigate("/locations");
+                            }}>Delete</button>
                     </>
                 )}
             </div>

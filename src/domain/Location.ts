@@ -18,3 +18,31 @@ export interface Location {
   incident_id: number;
   __v: number;
 }
+
+export const defaultLocation: Location = {
+  _id: "",
+  title: "",
+  longitude: 0,
+  latitude: 0,
+  date: 0,
+  category: "",
+  description: "",
+  street: "",
+  zip: 0,
+  city: "",
+  country: "",
+  user: "",
+  danger: "",
+  time_category: "",
+  tags: [],
+  images: [],
+  incident_id: -1,
+  __v: 0,
+}
+
+export const completeLocation = (location) => {
+  return {
+    ...defaultLocation,
+    ...location
+  }
+}

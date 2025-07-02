@@ -27,7 +27,7 @@ export async function login(username: string, password: string) {
 export async function logout() {
 
     try {
-        const res = await logoutRequest(user);
+        const res = await logoutRequest(token);
         console.log("Logout successfull");
         user = null;
         token = "";

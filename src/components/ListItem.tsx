@@ -13,12 +13,11 @@ const ListItem: React.FC<ListItemProps> = ({ location }) => {
 
   const showDetails = () => navigate(`/locations/${location.incident_id}`);
 
-  //todo nicht die ganze Karte anklicken zum Details anzeigen
     return (
         <li className="list-unstyled" key={location.incident_id}>
-            <div className="card m-2 m-md-4" onClick={showDetails}>
+            <div className="card m-2 m-md-4" >
               <div className="row">
-                <div className="col-7">
+                <div className="col-7" onClick={showDetails}>
                   <h3>{location.title}</h3>
                   <p className="text-start">{'Description: ' + (location.description.length < 1 ? '-' : location.description)}</p>
                   <p className="text-start">{'Street: ' + location.street}</p>
@@ -26,7 +25,7 @@ const ListItem: React.FC<ListItemProps> = ({ location }) => {
                   <p className="text-start">{'Category: ' + location.category}</p>
                 </div>
 
-                <div className="col-4">
+                <div className="col-4" onClick={showDetails}>
                   <img
                     src= {location.images.length != 0 
                       ? `http://141.45.191.149:7777/bikelin/api/incident/image/${location.images[0].image}`

@@ -9,6 +9,7 @@ import LocationDetailScreen from "./components/LocationDetailScreen";
 import UpdateLocationDetailScreen from "./components/UpdateLocationDetailScreen";
 import CreateNewLocationScreen from "./components/CreateNewLocationScreen";
 import AboutScreen from "./components/AboutScreen";
+import { loggedIn } from "./domain/auth";
 
 export const router = createBrowserRouter([
     {

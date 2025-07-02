@@ -1,16 +1,14 @@
-import { Location } from "./Location";
+import { completeLocation, Location } from "./Location";
 import { token } from "./auth";
 
 const BASE_URL = "http://141.45.191.149:7777/bikelin/api";
-
-//todo schauen ob alle Attribute vorhanden sind
 
 export async function fetchAllLocations(): Promise<Location[]> {
   const res = await fetch(`${BASE_URL}/incidents`);
   if (!res.ok) {
     throw new Error("Fehler beim Abrufen der Incidents");
   }
-  return await res.json();
+  return (await res.json()).map(completeLocation);
 }
 
 export async function fetchLocation(id: number): Promise<Location> {
@@ -18,7 +16,7 @@ export async function fetchLocation(id: number): Promise<Location> {
   if (!res.ok) {
     throw new Error("Fehler beim Abrufen eines Incidents");
   }
-  return await res.json();
+  return completeLocation(await res.json());
 }
 
 //todo add update and create Location methods

@@ -1,4 +1,4 @@
-//todo implementieren
+
 const AboutScreen = () => {
     return (
         <div>

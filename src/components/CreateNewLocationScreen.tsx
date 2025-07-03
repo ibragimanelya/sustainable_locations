@@ -8,36 +8,42 @@ const CreateNewLocationScreen = () => {
   const [newLocation, setNewLocation] = useState<Partial<Location>>({
     ...defaultLocation,
     user: user?.username || "", // Setze aktuellen Benutzer
+    city: "Berlin", // Default-Wert
+    country: "Germany", // Default-Wert
     time_category: "permanent", // Default-Wert
-    category: "other", // Default-Wert
+    category: "", // Default-Wert
   });
 
+  const [hasDanger, setHasDanger] = useState(false);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setNewLocation((prev) => ({ ...prev, [name]: value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type, checked } = e.target as HTMLInputElement;
+    if (name === "dangerCheck") {
+        setHasDanger(checked);
+    } else {
+        setNewLocation((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       // Validate coordinates
       const lat = Number(newLocation.latitude);
       const lng = Number(newLocation.longitude);
-      
+
       if (isNaN(lat)) throw new Error("Invalid latitude");
       if (isNaN(lng)) throw new Error("Invalid longitude");
-    
+
       // Validate required fields
       if (!newLocation.title) throw new Error("Title is required");
       if (!newLocation.category) throw new Error("Category is required");
-  
-      // Create payload with proper types
-      const payload = {
+
+      const payload : any = {
         title: newLocation.title,
         description: newLocation.description || "",
         longitude: lng,
@@ -47,14 +53,15 @@ const CreateNewLocationScreen = () => {
         zip: newLocation.zip ? Number(newLocation.zip) : 0,
         city: newLocation.city || "Berlin",
         country: newLocation.country || "Germany",
-        danger: newLocation.danger || "",
         time_category: newLocation.time_category || "permanent",
-        user: user?.username || ""
+        user: user?.username || "",
+        date: new Date().toISOString(),
       };
-  
+
+      if (hasDanger) payload.danger = "Warning";
+
       const newId = await createLocation(payload, imageFile);
       navigate(`/locations/${newId}`);
-      
     } catch (error) {
       console.error("Creation error:", error);
       setError(error.message);
@@ -66,13 +73,13 @@ const CreateNewLocationScreen = () => {
     { name: "description", type: "text" },
     { name: "latitude", type: "number", required: true, step: "0.000001" },
     { name: "longitude", type: "number", required: true, step: "0.000001" },
-    { name: "category", type: "text" },
     { name: "street", type: "text" },
     { name: "zip", type: "number" },
     { name: "city", type: "text" },
     { name: "country", type: "text" },
     { name: "danger", type: "text" },
     { name: "time_category", type: "text" },
+    { name: "date", type: "text"},
   ];
 
   return (
@@ -99,6 +106,44 @@ const CreateNewLocationScreen = () => {
               />
             </div>
           ))}
+
+          <div className="mb-3">
+            <label htmlFor="category" className="form-label">
+              Category <span className="text-danger">*</span>
+            </label>
+            <select
+              id="category"
+              name="category"
+              className="form-select"
+              value={newLocation.category || ""}
+              onChange={handleChange}
+              required
+            >
+              <option value="" disabled>
+                -- bitte wählen --
+              </option>
+              <option value="bikes">Bikes</option>
+              <option value="trash">Trash</option>
+              <option value="construction">Construction Work</option>
+              <option value="road_damage">Road Damage</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          {/* Checkbox für Danger */}
+          <div className="form-check mb-3">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="dangerCheck"
+              name="dangerCheck"
+              checked={hasDanger}
+              onChange={handleChange}
+            />
+            <label htmlFor="dangerCheck" className="form-check-label">
+              Als „Warning“ markieren
+            </label>
+          </div>
 
           <div className="mb-3">
             <label htmlFor="image" className="form-label">

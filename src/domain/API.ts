@@ -47,57 +47,6 @@ export async function updateLocation(id: number, updatedData: Partial<Location>,
   if (!res.ok) throw new Error("Fehler beim Aktualisieren des Incidents");
 }
 
-// export async function createLocation(
-//   newLocation: Partial<Location>,
-//   file?: File
-// ): Promise<Location> {
-//   const formData = new FormData();
-
-//   const incidentObject = {
-//     title: newLocation.title ?? "Untitled",
-//     description: newLocation.description ?? "",
-//     latitude: parseFloat(newLocation.latitude as any),
-//     longitude: parseFloat(newLocation.longitude as any),
-//     category: newLocation.category ?? "unknown",
-//     street: newLocation.street ?? "",
-//     zip: parseInt(newLocation.zip as any, 10),
-//     city: newLocation.city ?? "",
-//     country: newLocation.country ?? "",
-//     danger: newLocation.danger ?? "",
-//     time_category: newLocation.time_category ?? "",
-//     user: user?.username ?? "admina",
-//     tags: [],
-//     date: Date.now(),
-//   };
-
-//   console.log("Incident to upload:", JSON.stringify(incidentObject));
-//   formData.append("incident", JSON.stringify(incidentObject));
-
-//   if (file) {
-//     formData.append("file", file);
-//   }
-
-//   const res = await fetch(
-//     "http://141.45.191.149:7777/bikelin/api/incident/upload",
-//     {
-//       method: "POST",
-//       headers: {
-//         Authorization: getAuthHeader(), // korrektes Token!
-//       },
-//       body: formData,
-//     }
-//   );
-
-//   if (!res.ok) {
-//     const errorText = await res.text();
-//     console.error("Upload fehlgeschlagen:", errorText);
-//     throw new Error("Fehler beim Erstellen des Incidents: " + errorText);
-//   }
-
-//   const data = await res.json();
-//   return { ...incidentObject, incident_id: data.id } as Location;
-// }
-
 export async function createLocation(
   newLocation: Partial<Location>,
   file?: File

@@ -9,12 +9,13 @@ const UpdateLocationDetailScreen = () => {
 
   const [location, setLocation] = useState<Partial<Location>>({});
   const [error, setError] = useState<string>("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     fetchLocation(parseInt(locationId!))
       .then((res) => setLocation(res))
       .catch((e) => setError(e.message));
-  }, []);
+  }, [locationId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -24,13 +25,26 @@ const UpdateLocationDetailScreen = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const preparedLocation = {
-        ...location,
-        longitude: parseFloat(location.longitude as any),
+      const preparedLocation: Partial<Location> = {
+        title: location.title,
+        description: location.description,
         latitude: parseFloat(location.latitude as any),
+        longitude: parseFloat(location.longitude as any),
+        category: location.category,
+        street: location.street,
         zip: parseInt(location.zip as any),
+        city: location.city,
+        country: location.country,
+        danger: location.danger,
+        time_category: location.time_category,
       };
-      await updateLocation(parseInt(locationId!), preparedLocation);
+
+      await updateLocation(
+        parseInt(locationId!),
+        preparedLocation,
+        imageFile ?? undefined
+      );
+
       navigate(`/locations/${locationId}`);
     } catch (e: any) {
       setError("Update failed: " + e.message);
@@ -42,96 +56,48 @@ const UpdateLocationDetailScreen = () => {
       <h2>Update Location</h2>
       {error && <p className="text-danger">{error}</p>}
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          value={location.title || ""}
-          onChange={handleChange}
-          placeholder="Title"
-          className="form-control mb-2"
-        />
-        <input
-          type="text"
-          name="description"
-          value={location.description || ""}
-          onChange={handleChange}
-          placeholder="Description"
-          className="form-control mb-2"
-        />
-        <input
-          type="number"
-          step="any"
-          name="longitude"
-          value={location.longitude?.toString() || ""}
-          onChange={handleChange}
-          placeholder="Longitude"
-          className="form-control mb-2"
-        />
-        <input
-          type="number"
-          step="any"
-          name="latitude"
-          value={location.latitude?.toString() || ""}
-          onChange={handleChange}
-          placeholder="Latitude"
-          className="form-control mb-2"
-        />
-        <input
-          type="text"
-          name="category"
-          value={location.category || ""}
-          onChange={handleChange}
-          placeholder="Category"
-          className="form-control mb-2"
-        />
-        <input
-          type="text"
-          name="street"
-          value={location.street || ""}
-          onChange={handleChange}
-          placeholder="Street"
-          className="form-control mb-2"
-        />
-        <input
-          type="number"
-          name="zip"
-          value={location.zip?.toString() || ""}
-          onChange={handleChange}
-          placeholder="ZIP"
-          className="form-control mb-2"
-        />
-        <input
-          type="text"
-          name="city"
-          value={location.city || ""}
-          onChange={handleChange}
-          placeholder="City"
-          className="form-control mb-2"
-        />
-        <input
-          type="text"
-          name="country"
-          value={location.country || ""}
-          onChange={handleChange}
-          placeholder="Country"
-          className="form-control mb-2"
-        />
-        <input
-          type="text"
-          name="danger"
-          value={location.danger || ""}
-          onChange={handleChange}
-          placeholder="Danger Level"
-          className="form-control mb-2"
-        />
-        <input
-          type="text"
-          name="time_category"
-          value={location.time_category || ""}
-          onChange={handleChange}
-          placeholder="Time Category"
-          className="form-control mb-2"
-        />
+        {[
+          "title",
+          "description",
+          "longitude",
+          "latitude",
+          "category",
+          "street",
+          "zip",
+          "city",
+          "country",
+          "danger",
+          "time_category",
+        ].map((field) => (
+          <input
+            key={field}
+            type={field === "zip" ? "number" : "text"}
+            name={field}
+            value={(location as any)[field] || ""}
+            onChange={handleChange}
+            placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+            className="form-control mb-2"
+          />
+        ))}
+
+        <div className="mb-3">
+          <label htmlFor="imageFile" className="form-label">
+            Upload new image (optional)
+          </label>
+          <input
+            type="file"
+            className="form-control"
+            id="imageFile"
+            name="imageFile"
+            accept="image/*"
+            onChange={(e) => {
+              if (e.target.files && e.target.files.length > 0) {
+                setImageFile(e.target.files[0]);
+              }
+            }}
+          />
+        </div>
+
         <button className="btn btn-success me-2" type="submit">
           Save
         </button>

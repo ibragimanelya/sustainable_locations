@@ -1,3 +1,4 @@
+import { get } from "http";
 import { loginRequest, logoutRequest } from "./UserAPI";
 
 //Log in as admin with "admin123" and "password"
@@ -8,20 +9,17 @@ export let token = localStorage.getItem("token") ?? "";
 export const loggedIn = () => user !== null;
 
 export const getAuthHeader = (): string => {
-  return localStorage.getItem("token") ?? "";
+  return token ? `Bearer ${token}` : "";
 };
 
 export async function login(username: string, password: string) {
   try {
-    console.log(
-      `Tried to log in with username "${username}" and password "${password}".`
-    );
     const res = await loginRequest(username, password);
     //console.log("Login Result: " + JSON.stringify(res))
     //console.log("Login Result User: " + JSON.stringify(res.user))
     //console.log("Login Result Token: " + res.token)
     user = res.user;
-    token = `Bearer ${res.token}`;
+    token = res.token;
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
 
@@ -35,14 +33,18 @@ export async function login(username: string, password: string) {
 
 export async function logout() {
   try {
-    const res = await logoutRequest(token);
+    const res = await logoutRequest(getAuthHeader());
     console.log("Logout successfull");
     user = null;
     token = "";
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
   } catch (e) {
     console.error("Logout failed: ", e);
     user = null;
     token = "";
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     throw e;
   }
   //nicht success -> trotzdem auf null setzen ???

@@ -8,7 +8,6 @@ import { loggedIn, logout, user } from "../domain/auth";
 //todo welcome message personalisiert
 
 
-
 const LocationList = () => {  
 
   const {locations, state, error, refresh} = useLocations();
@@ -20,9 +19,13 @@ const LocationList = () => {
   useEffect(() => {
     const intervallId = setInterval(setLastRefresh, 1200000, Date.now()); 
     return () => clearInterval(intervallId);
-  })
+  }, []);
 
   const navigate = useNavigate();
+
+  const sortedLocations = [...locations].sort(
+    (a, b) => b.incident_id - a.incident_id
+  );
   
   return (
     <div className="d-flex flex-column align-items-center px-3">

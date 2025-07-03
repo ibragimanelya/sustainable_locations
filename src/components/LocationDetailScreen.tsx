@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import { deleteLocation } from "../domain/API";
 import { Location } from "../domain/Location";
 import { loggedIn, user } from "../domain/auth";
+import { useLocations } from "../domain/hooks";
 
 const LocationDetailScreen = () => {
   const { locationId } = useParams<{ locationId: string }>();

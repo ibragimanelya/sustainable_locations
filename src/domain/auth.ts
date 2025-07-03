@@ -2,41 +2,48 @@ import { loginRequest, logoutRequest } from "./UserAPI";
 
 //Log in as admin with "admin123" and "password"
 
-export let user = null;
-export let token = "";
+export let user = JSON.parse(localStorage.getItem("user") ?? "null");
+export let token = localStorage.getItem("token") ?? "";
 
 export const loggedIn = () => user !== null;
 
+export const getAuthHeader = (): string => {
+  return localStorage.getItem("token") ?? "";
+};
+
 export async function login(username: string, password: string) {
-    try {
-        console.log(`Tried to log in with username "${username}" and password "${password}".`)
-        const res = await loginRequest(username, password); 
-        //console.log("Login Result: " + JSON.stringify(res))
-        //console.log("Login Result User: " + JSON.stringify(res.user))
-        //console.log("Login Result Token: " + res.token)
-        user = res.user;
-        token = res.token;
-        console.log(`Login as ${user.username} successfull`);
-        return res; 
-    } catch (e) {
-        console.error("Login failed: ", e);
-        throw e; 
-    }
+  try {
+    console.log(
+      `Tried to log in with username "${username}" and password "${password}".`
+    );
+    const res = await loginRequest(username, password);
+    //console.log("Login Result: " + JSON.stringify(res))
+    //console.log("Login Result User: " + JSON.stringify(res.user))
+    //console.log("Login Result Token: " + res.token)
+    user = res.user;
+    token = `Bearer ${res.token}`;
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("token", token);
+
+    console.log(`Login as ${user.username} successfull`);
+    return res;
+  } catch (e) {
+    console.error("Login failed: ", e);
+    throw e;
+  }
 }
 
 export async function logout() {
-
-    try {
-        const res = await logoutRequest(token);
-        console.log("Logout successfull");
-        user = null;
-        token = "";
-        
-    } catch (e) {
-        console.error("Logout failed: ", e);
-        user = null;
-        token = "";
-        throw e;
-    }
-    //nicht success -> trotzdem auf null setzen ???
+  try {
+    const res = await logoutRequest(token);
+    console.log("Logout successfull");
+    user = null;
+    token = "";
+  } catch (e) {
+    console.error("Logout failed: ", e);
+    user = null;
+    token = "";
+    throw e;
+  }
+  //nicht success -> trotzdem auf null setzen ???
 }

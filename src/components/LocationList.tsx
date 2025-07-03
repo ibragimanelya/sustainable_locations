@@ -7,7 +7,9 @@ import { loggedIn, logout, user } from "../domain/auth";
 
 //todo welcome message personalisiert
 
-const LocationList = () => {
+
+
+const LocationList = () => {  
 
   const {locations, state, error, refresh} = useLocations();
   

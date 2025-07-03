@@ -27,8 +27,9 @@ const LocationList = () => {
   return (
     <div className="d-flex flex-column align-items-center px-3">
       {loggedIn() && (<div className="card m-2 m-md-4">
-        <p className="text-white">Welcome, {user.username}! This page highlights various bike incident locations, both good and bad.</p>
-        <p className="text-white">Stay informed and help make the city a safer place for cyclists!</p>
+        <h1 className="fw-bold">Welcome, {user.username}!</h1>
+        <p className="fs-2 text-primary">This page highlights various bike incident locations, both good and bad.</p>
+        <p className="fs-2 text-primary">Stay informed and help make the city a safer place for cyclists!</p>
       </div>)}
       <h1 className="m-2 m-md-4">Bike Incidents Overview</h1>
       {!loggedIn() && <h3 className="text-danger">You are currently not logged in</h3>}

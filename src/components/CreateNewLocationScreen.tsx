@@ -12,6 +12,7 @@ const CreateNewLocationScreen = () => {
     country: "Germany", // Default-Wert
     time_category: "permanent", // Default-Wert
     category: "", // Default-Wert
+    danger: "" //Default-Wert
   });
 
   const [hasDanger, setHasDanger] = useState(false);
@@ -42,6 +43,7 @@ const CreateNewLocationScreen = () => {
       // Validate required fields
       if (!newLocation.title) throw new Error("Title is required");
       if (!newLocation.category) throw new Error("Category is required");
+      if (!newLocation.danger) throw new Error("Danger is required");
 
       const payload : any = {
         title: newLocation.title,
@@ -49,16 +51,19 @@ const CreateNewLocationScreen = () => {
         longitude: lng,
         latitude: lat,
         category: newLocation.category,
+        danger: newLocation.danger,
         street: newLocation.street || "",
         zip: newLocation.zip ? Number(newLocation.zip) : 0,
         city: newLocation.city || "Berlin",
         country: newLocation.country || "Germany",
         time_category: newLocation.time_category || "permanent",
         user: user?.username || "",
-        date: new Date().toISOString(),
+        date: Date.now(),
       };
 
-      if (hasDanger) payload.danger = "Warning";
+      //if (hasDanger) payload.danger = "Warning";
+
+      console.log(payload);
 
       const newId = await createLocation(payload, imageFile);
       navigate(`/locations/${newId}`);
@@ -77,9 +82,7 @@ const CreateNewLocationScreen = () => {
     { name: "zip", type: "number" },
     { name: "city", type: "text" },
     { name: "country", type: "text" },
-    { name: "danger", type: "text" },
-    { name: "time_category", type: "text" },
-    { name: "date", type: "text"},
+    { name: "time_category", type: "text" }
   ];
 
   return (
@@ -131,7 +134,7 @@ const CreateNewLocationScreen = () => {
           </div>
 
           {/* Checkbox für Danger */}
-          <div className="form-check mb-3">
+          {/*<div className="form-check mb-3">
             <input
               type="checkbox"
               className="form-check-input"
@@ -143,6 +146,27 @@ const CreateNewLocationScreen = () => {
             <label htmlFor="dangerCheck" className="form-check-label">
               Als „Warning“ markieren
             </label>
+          </div>*/}
+
+          <div className="mb-3">
+            <label htmlFor="danger" className="form-label">
+              Danger <span className="text-danger">*</span>
+            </label>
+            <select
+              id="danger"
+              name="danger"
+              className="form-select"
+              value={newLocation.danger || ""}
+              onChange={handleChange}
+              required
+            >
+              <option value="" disabled>
+                -- bitte wählen --
+              </option>
+              <option value="All good!">All good!</option>
+              <option value="High">High</option>
+              <option value="Warning">Warning</option>
+            </select>
           </div>
 
           <div className="mb-3">

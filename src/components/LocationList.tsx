@@ -7,6 +7,8 @@ import { loggedIn, logout, user } from "../domain/auth";
 
 //todo welcome message personalisiert
 
+/*{"title":"Test Radweg 1","longitude":13.2643306,"latitude":52.4221462,"date":1746970100951,"files":[{}],"category":"bad","description":"Radweg testen","street":"Test-Straße","zip":"14165","city":"Berlin","country":"Germany","danger":"Warning","time_category":"permanent"}*/
+
 
 const LocationList = () => {  
 
@@ -30,7 +32,7 @@ const LocationList = () => {
   return (
     <div className="d-flex flex-column align-items-center px-3">
       {loggedIn() && (<div className="card m-2 m-md-4">
-        <h1 className="fw-bold">Welcome, {user.username}!</h1>
+        <h1 className="fw-bold">Welcome, {user.firstname}!</h1>
         <p className="fs-2 text-primary">This page highlights various bike incident locations, both good and bad.</p>
         <p className="fs-2 text-primary">Stay informed and help make the city a safer place for cyclists!</p>
       </div>)}

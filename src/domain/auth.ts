@@ -1,4 +1,3 @@
-import { get } from "http";
 import { loginRequest, logoutRequest } from "./UserAPI";
 
 //Log in as admin with "admin123" and "password"

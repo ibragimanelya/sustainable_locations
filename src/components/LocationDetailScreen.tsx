@@ -89,7 +89,7 @@ const LocationDetailScreen = () => {
                 />
                 <ul>
                 {location.tags.map((tag, index) => (
-                    <li key={index}>{tag}</li>
+                    <li key={index}>{tag.tag}</li>
                 ))}
                 </ul>
             </div>
